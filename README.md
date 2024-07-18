@@ -18,8 +18,8 @@ This project provides a flexible and scalable solution for automating interactio
 
 1. **Clone the repository**:
     ```bash
-    git clone https://github.com/fatal51/whatsapp-web-automation-node.git
-    cd whatsapp-web-automation-node
+    git clone https://github.com/fatal51/wap-api.git
+    cd wap-api
     ```
 
 2. **Install dependencies**:
