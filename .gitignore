@@ -1,0 +1,59 @@
+# Node modules
+node_modules/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Diretórios de compilação
+dist/
+build/
+
+# Dependências específicas do sistema operacional
+.DS_Store
+Thumbs.db
+
+# Ambiente
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Cache do npm
+.npm/
+
+# Cache do yarn
+.yarn/
+
+# Diretório de cobertura de testes
+coverage/
+
+# Diretório de relatórios de erros do funcionamento do npm
+error.log
+
+# Arquivos temporários
+tmp/
+temp/
+
+# Cache de IDEs e editores
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# Configuração de editores de texto
+*.swp
+
+# Configurações de ESLint
+.eslintcache
+
+# Ignora os outputs do serviço de upload
+uploads/
+.wwebjs_cache/
+.wwebjs_auth/
