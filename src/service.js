@@ -1,14 +1,11 @@
 const { Client, LocalAuth } = require('whatsapp-web.js');
-const qrcode = require('qrcode-terminal');
-const express = require('express');
-const bodyParser = require('body-parser');
+const qrcode = require('qrcode');
 const fs = require('fs-extra');
-const { v4: uuidv4 } = require('uuid');
 
-const app = express();
-const PORT = 3000;
-const CLIENTS_FILE_PATH = './clients.json';
+const CLIENTS_FILE_PATH = process.env.CLIENTS_FILE_PATH || './clients.json';
 let clients = {};
+let qrCodes = {};
+
 
 if (fs.existsSync(CLIENTS_FILE_PATH)) {
     const clientIds = fs.readJsonSync(CLIENTS_FILE_PATH);
@@ -17,11 +14,42 @@ if (fs.existsSync(CLIENTS_FILE_PATH)) {
     });
 }
 
-app.use(bodyParser.json());
-
 function saveClientsToFile() {
     const clientIds = Object.keys(clients);
     fs.writeJsonSync(CLIENTS_FILE_PATH, clientIds);
+}
+
+function getQrCode(id) {
+    return qrCodes[id];
+}
+
+function deleteQrcode(id) {
+    delete qrCodes[id];
+}
+
+function waitForQrCode(id) {
+    return new Promise((resolve, reject) => {
+        const checkQrCode = () => {
+            if (qrCodes[id]) {
+                resolve(qrCodes[id]);
+            } else {
+                setTimeout(checkQrCode, 1000);
+            }
+        };
+        checkQrCode();
+    });
+}
+
+function disconnectClient(id) {
+    const client = clients[id];
+    if (client) {
+        client.destroy();
+        delete clients[id];
+        saveClientsToFile();
+        console.log(`Cliente ${id} foi desconectado e removido.`);
+        return true;
+    }
+    return false;
 }
 
 function initializeClient(id) {
@@ -32,27 +60,38 @@ function initializeClient(id) {
     });
 
     client.on('qr', qr => {
-        console.log(`QR Code para o cliente ${id}:`);
-        qrcode.generate(qr, { small: true });
+        try {
+            qrcode.toDataURL(qr, (err, url) => {
+                if (err) {
+                    console.error('Erro ao gerar QR code em base64:', err);
+                    return;
+                }
+                qrCodes[id] = url;
+            });
+        } catch (error) {
+            console.error('Erro ao gerar QR code:', error);
+        }
+        
     });
 
     client.on('ready', () => {
         console.log(`Cliente ${id} está pronto!`);
+        deleteQrcode(id);
     });
 
     client.on('authenticated', () => {
         console.log(`Cliente ${id} autenticado com sucesso`);
+        deleteQrcode(id);
     });
 
     client.on('auth_failure', msg => {
         console.error(`Falha na autenticação do cliente ${id}:`, msg);
+        deleteQrcode(id);
     });
 
     client.on('message', async message => {
         let hello_msg = "Mensagem padrão";
         let msg = message.body.toLowerCase().trim();
-
-        console.log(`Mensagem recebida no cliente ${id}: ${msg}`);
 
         if (msg.includes("teste")) {
             if (msg.startsWith('teste ')) {
@@ -62,14 +101,13 @@ function initializeClient(id) {
             } else {
                 await message.reply(hello_msg);
             }
-        } else {
-            await message.reply(hello_msg);
         }
     });
 
     client.on('disconnected', () => {
         console.log(`Cliente ${id} desconectado.`);
         delete clients[id];
+        deleteQrcode(id);
         saveClientsToFile();
     });
 
@@ -78,33 +116,4 @@ function initializeClient(id) {
     saveClientsToFile();
 }
 
-app.get('/register', (req, res) => {
-    const id = uuidv4();
-    initializeClient(id);
-    res.status(200).send({ success: true, clientId: id });
-});
-
-app.post('/sendMessage', async (req, res) => {
-    const { numero, mensagem, clientId } = req.body;
-
-    if (!numero || !mensagem || !clientId) {
-        return res.status(400).send({ error: 'Número, mensagem e clientId são necessários' });
-    }
-
-    try {
-        const chatId = `${numero}@c.us`;
-        const client = clients[clientId];
-        if (!client) {
-            return res.status(404).send({ error: 'Cliente não encontrado' });
-        }
-        await client.sendMessage(chatId, mensagem);
-        res.status(200).send({ success: true, message: 'Mensagem enviada com sucesso' });
-    } catch (error) {
-        console.error('Erro ao enviar mensagem:', error);
-        res.status(500).send({ success: false, message: 'Erro ao enviar mensagem' });
-    }
-});
-
-app.listen(PORT, () => {
-    console.log(`Servidor HTTP rodando na porta ${PORT}`);
-});
+module.exports = { initializeClient, clients, getQrCode, waitForQrCode, disconnectClient };

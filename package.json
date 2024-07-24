@@ -1,5 +1,5 @@
 {
-  "name": "whats-api-dist",
+  "name": "wap-api",
   "version": "1.0.0",
   "description": "Fix API for whatsappweb.js",
   "dependencies": {
@@ -7,11 +7,14 @@
     "dotenv": "^16.3.1",
     "express": "^4.19.2",
     "express-rate-limit": "^6.10.0",
-    "qr-image": "^3.2.0",
-    "qrcode-terminal": "^0.12.0",
+    "qrcode": "^1.5.3",
     "swagger-ui-express": "^4.6.3",
     "uuid": "^10.0.0",
     "whatsapp-web.js": "github:victorbeser/whatsappweb.js-node"
+  },
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
   },
   "devDependencies": {
     "eslint": "^8.38.0",
@@ -32,9 +35,9 @@
     "express",
     "axios"
   ],
-  "author": "Victor Beser",
+  "author": "Mathues Oliveira",
   "license": "MIT",
   "engines": {
-    "node": ">=14.17.0"
+    "node": ">=14.21.3"
   }
 }
