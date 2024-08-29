@@ -23,6 +23,7 @@ This project provides a flexible and scalable solution for automating interactio
     ```
 
 2. **Install dependencies**:
+    - **Node version** >= 18.0.0
     ```bash
     npm install
     ```

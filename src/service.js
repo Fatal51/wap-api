@@ -19,6 +19,10 @@ function saveClientsToFile() {
     fs.writeJsonSync(CLIENTS_FILE_PATH, clientIds);
 }
 
+function getClients() {
+    return Object.keys(clients).map(id => ({ clientId: id, qrCode: qrCodes[id] }));
+}
+
 function getQrCode(id) {
     return qrCodes[id];
 }
@@ -116,4 +120,4 @@ function initializeClient(id) {
     saveClientsToFile();
 }
 
-module.exports = { initializeClient, clients, getQrCode, waitForQrCode, disconnectClient };
+module.exports = { initializeClient, clients, getQrCode, waitForQrCode, disconnectClient, getClients };

@@ -58,3 +58,4 @@ uploads/
 .wwebjs_cache/
 .wwebjs_auth/
 clients.json
+yarn.lock
