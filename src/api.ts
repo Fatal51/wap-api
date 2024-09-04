@@ -46,10 +46,12 @@ function cleanUpSessions(): void {
   });
 }
 
-cron.schedule("0 */4 * * *", () => {
-  console.log("Executando job de limpeza de sessões...");
-  cleanUpSessions();
-});
+if (process.env.NODE_ENV !== "test") {
+  cron.schedule("0 */4 * * *", () => {
+    console.log("Executando job de limpeza de sessões...");
+    cleanUpSessions();
+  });
+}
 
 cleanUpSessions();
 

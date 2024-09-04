@@ -1,8 +1,10 @@
 import "dotenv/config";
-import app from "./src/api";
+import app from "./api";
 
 const PORT: string | number = process.env.PORT || 3001;
 
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
   console.log(`Servidor HTTP rodando na porta ${PORT}`);
 });
+
+export default server; // Export the server instance
