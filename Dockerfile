@@ -1,8 +1,11 @@
+# Use the official Node.js 18 slim image as the base
 FROM node:18.20.4-slim
 
+# Set the working directory
 WORKDIR /app
 
-RUN apt update -y && apt-get install -y --no-install-recommends \
+# Install dependencies needed for running the project and puppeteer
+RUN apt-get update && apt-get install -y --no-install-recommends \
     git \
     ca-certificates \
     fonts-liberation \
@@ -40,19 +43,28 @@ RUN apt update -y && apt-get install -y --no-install-recommends \
     lsb-release \
     wget \
     xdg-utils \
-    && apt clean
+    && rm -rf /var/lib/apt/lists/*
 
+# Install pnpm globally
+RUN corepack enable && corepack prepare pnpm@latest --activate
 
-COPY package*.json ./
+# Copy only package.json and pnpm-lock.yaml to leverage Docker layer caching
+COPY package.json pnpm-lock.yaml ./
 
-RUN npm install
+# Install project dependencies using pnpm
+RUN pnpm install --frozen-lockfile
 
+# Copy the rest of the application code
 COPY . .
 
-RUN chown -Rf node:node /app
+# Set ownership of the /app directory to the node user
+RUN chown -R node:node /app
 
+# Switch to non-root user for better security
 USER node
 
+# Expose the application port
 EXPOSE 3000
 
-CMD ["yarn", "start"]
+# Command to start the app
+CMD ["pnpm", "start"]

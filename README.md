@@ -5,6 +5,7 @@ This project provides a flexible and scalable solution for automating interactio
 
 ## Features
 
+- **TypeScript Support**: Full TypeScript support for type safety and improved development experience.
 - **Dynamic Client Registration**: Register new WhatsApp clients dynamically via an HTTP endpoint. Each client is assigned a unique UUID.
 - **Persistent Sessions**: Client sessions are persistent across server restarts using `LocalAuth`. UUIDs are saved in a JSON file.
 - **Message Handling**: Respond to incoming messages with customizable logic.
@@ -18,17 +19,17 @@ This project provides a flexible and scalable solution for automating interactio
 
 1. **Clone the repository**:
     ```bash
-    git clone https://github.com/your-username/wap-api-node.git
-    cd wap-api-node
+    git clone https://github.com/Fatal51/wap-api.git
+    cd wap-api
     ```
 
-2. **Install dependencies**:
+2. **Install dependencies using `pnpm`**:
     - **Node version** >= 18.0.0
     ```bash
-    npm install
+    pnpm install
     ```
 
-3. **Create a .env file**:
+3. **Create a `.env` file**:
     ```env
     PORT=3000
     CLIENTS_FILE_PATH=./clients.json
@@ -36,7 +37,7 @@ This project provides a flexible and scalable solution for automating interactio
 
 4. **Run the server**:
     ```bash
-    yarn start
+    pnpm start
     ```
 
 ### Docker Installation
@@ -54,18 +55,20 @@ This project provides a flexible and scalable solution for automating interactio
 ## Project Structure
 
 ```
-wap-api-node
+wap-api
 │
 ├── src
-│   ├── api.js
-│   ├── service.js
+│   ├── api.ts
+│   ├── service.ts
 │
-├── index.js
-├── package.json
+├── .gitignore
 ├── clients.json
 ├── Dockerfile
+├── index.ts
+├── package.json
 ├── README.md
-├── .env
+├── tsconfig.json
+├── WAP-API.postman_collection.json
 ```
 
 ## Endpoints
@@ -140,6 +143,14 @@ wap-api-node
 
 - **`PORT`**: The port on which the Express server runs. Default is `3000`.
 - **`CLIENTS_FILE_PATH`**: Path to the JSON file that stores client UUIDs. Default is `./clients.json`.
+
+## Postman Collection
+
+You can test the API endpoints using the provided Postman collection file. Download the collection and import it into Postman:
+
+- **File**: [`WAP-API.postman_collection.json`](./WAP-API.postman_collection.json)
+
+This collection includes all the API endpoints, ready for testing.
 
 ## Example Usage
 
