@@ -1,0 +1,46 @@
+# dependencies
+/node_modules
+/.pnp
+.pnp.js
+
+# testing
+/coverage
+/jest.config.js
+
+# build and production
+/dist
+/build
+/temp
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# local env files
+.env
+.env.local
+.env.development
+.env.test
+.env.production
+
+# misc
+.DS_Store
+*.pem
+
+# temporary files
+*.tmp
+*.temp
+
+# eslint and prettier configs
+.prettierrc
+.eslintrc.js
+
+# changelog
+CHANGELOG.md
+
+# lock files
+pnpm-lock.yaml
+yarn.lock
+package-lock.json
