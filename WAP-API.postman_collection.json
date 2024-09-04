@@ -1,121 +1,173 @@
 {
-  "info": {
-    "_postman_id": "f6dc8abc-67a9-47cf-9e9b-9399109a59f8",
-    "name": "WAP-API",
-    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-    "_exporter_id": "2867437"
-  },
-  "item": [
-    {
-      "name": "Register client",
-      "request": {
-        "method": "GET",
-        "header": [],
-        "url": {
-          "raw": "{{BASE-URL}}/register",
-          "host": ["{{BASE-URL}}"],
-          "path": ["register"]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "List clients",
-      "request": {
-        "method": "GET",
-        "header": [],
-        "url": {
-          "raw": "{{BASE-URL}}/clients",
-          "host": ["{{BASE-URL}}"],
-          "path": ["clients"]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "Send message",
-      "request": {
-        "method": "POST",
-        "header": [],
-        "body": {
-          "mode": "raw",
-          "raw": "{\n    \"numero\": \"target-number (E.g. 5535777777777)\",\n    \"mensagem\": \"Hello World!\",\n    \"clientId\": \"client-uuid\"\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": {
-          "raw": "{{BASE-URL}}/sendMessage",
-          "host": ["{{BASE-URL}}"],
-          "path": ["sendMessage"]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "Get QRCode",
-      "request": {
-        "method": "GET",
-        "header": [],
-        "url": {
-          "raw": "{{BASE-URL}}/getQRCode/:uuid",
-          "host": ["{{BASE-URL}}"],
-          "path": ["getQRCode", ":uuid"],
-          "variable": [
-            {
-              "key": "uuid",
-              "value": ""
-            }
-          ]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "Disconnect client",
-      "request": {
-        "method": "DELETE",
-        "header": [],
-        "url": {
-          "raw": "{{BASE-URL}}/disconnect/:uuid",
-          "host": ["{{BASE-URL}}"],
-          "path": ["disconnect", ":uuid"],
-          "variable": [
-            {
-              "key": "uuid",
-              "value": ""
-            }
-          ]
-        }
-      },
-      "response": []
-    }
-  ],
-  "event": [
-    {
-      "listen": "prerequest",
-      "script": {
-        "type": "text/javascript",
-        "packages": {},
-        "exec": [""]
-      }
-    },
-    {
-      "listen": "test",
-      "script": {
-        "type": "text/javascript",
-        "packages": {},
-        "exec": [""]
-      }
-    }
-  ],
-  "variable": [
-    {
-      "key": "BASE-URL",
-      "value": "http://localhost:3001",
-      "type": "string"
-    }
-  ]
+	"info": {
+		"_postman_id": "f6dc8abc-67a9-47cf-9e9b-9399109a59f8",
+		"name": "WAP-API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "2867437"
+	},
+	"item": [
+		{
+			"name": "Register client",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BASE-URL}}/register",
+					"host": [
+						"{{BASE-URL}}"
+					],
+					"path": [
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "List clients",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BASE-URL}}/clients",
+					"host": [
+						"{{BASE-URL}}"
+					],
+					"path": [
+						"clients"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Send message",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"numero\": \"target-number (E.g. 5535777777777)\",\n    \"mensagem\": \"Hello World!\",\n    \"clientId\": \"client-uuid\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE-URL}}/sendMessage",
+					"host": [
+						"{{BASE-URL}}"
+					],
+					"path": [
+						"sendMessage"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get QRCode",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BASE-URL}}/getQRCode/:uuid",
+					"host": [
+						"{{BASE-URL}}"
+					],
+					"path": [
+						"getQRCode",
+						":uuid"
+					],
+					"variable": [
+						{
+							"key": "uuid",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Disconnect client",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{BASE-URL}}/disconnect/:uuid",
+					"host": [
+						"{{BASE-URL}}"
+					],
+					"path": [
+						"disconnect",
+						":uuid"
+					],
+					"variable": [
+						{
+							"key": "uuid",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Send media",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"clientId\": \"\",\n    \"numero\": \"\",\n    \"mediaData\": \"\", // Use either mediaData or mediaUrl\n    \"mediaUrl\": \"\" // Use either mediaData or mediaUrl\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE-URL}}/sendMedia",
+					"host": [
+						"{{BASE-URL}}"
+					],
+					"path": [
+						"sendMedia"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "BASE-URL",
+			"value": "http://localhost:3001",
+			"type": "string"
+		}
+	]
 }

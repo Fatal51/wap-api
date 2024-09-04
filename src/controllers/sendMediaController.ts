@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { Request, Response } from 'express';
 import { MessageMedia } from 'whatsapp-web.js';
 
@@ -38,11 +37,7 @@ export const sendMedia = async (req: Request, res: Response) => {
 
       // Handle media from URL
     } else if (mediaUrl) {
-      const response = await axios.get(mediaUrl, {
-        responseType: 'arraybuffer',
-      });
-      const base64 = Buffer.from(response.data).toString('base64');
-      media = new MessageMedia(fileType, base64);
+      media = await MessageMedia.fromUrl(mediaUrl);
 
       // Handle media from byte array
     } else if (mediaData && mediaType === 'byteArray') {
