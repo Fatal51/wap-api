@@ -73,6 +73,10 @@ function disconnectClient(id: string): boolean {
 // Initialize a client
 function initializeClient(id: string): void {
   const client = new Client({
+    puppeteer: {
+      headless: true,
+      args: ['--no-sandbox', '--disable-setuid-sandbox'],
+    },
     authStrategy: new LocalAuth({
       clientId: id,
     }),

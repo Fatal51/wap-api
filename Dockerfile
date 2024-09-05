@@ -1,5 +1,5 @@
-# Use the official Node.js 18 slim image as the base
-FROM node:18.20.4-slim
+# Build stage
+FROM node:20.17.0-slim AS builder
 
 # Set the working directory
 WORKDIR /app
@@ -51,20 +51,48 @@ RUN corepack enable && corepack prepare pnpm@latest --activate
 # Copy only package.json and pnpm-lock.yaml to leverage Docker layer caching
 COPY package.json pnpm-lock.yaml ./
 
-# Install project dependencies using pnpm
+# Ensure Puppeteer downloads Chromium
+ENV PUPPETEER_SKIP_DOWNLOAD=false
+
+# Install project dependencies using pnpm, including puppeteer and chromium
 RUN pnpm install --frozen-lockfile
 
 # Copy the rest of the application code
 COPY . .
 
-# Set ownership of the /app directory to the node user
+# Build the app
+RUN pnpm run build
+
+# Runtime stage (Production Image)
+FROM node:20.17.0-slim
+
+# Install necessary Chromium dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    chromium \
+    fonts-liberation \
+    libgbm-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+# Set the working directory
+WORKDIR /app
+
+# Copy the build artifacts from the build stage
+COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/package.json ./package.json
+COPY --from=builder /app/pnpm-lock.yaml ./pnpm-lock.yaml
+
+# Set Puppeteer to use Chromium installed via apt
+ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium
+
+# Ensure the node user can write to /app
 RUN chown -R node:node /app
 
 # Switch to non-root user for better security
 USER node
 
 # Expose the application port
-EXPOSE 3000
+EXPOSE 3001
 
 # Command to start the app
-CMD ["pnpm", "start"]
+CMD ["node", "dist/index.js"]

@@ -19,15 +19,17 @@
   },
   "main": "index.ts",
   "scripts": {
-    "start": "pnpx ts-node src/index.ts",
+    "postinstall": "if [ \"$NODE_ENV\" != \"production\" ]; then husky .husky; fi",
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "start:dev": "pnpx ts-node src/index.ts",
     "test": "NODE_ENV=test jest",
     "test:watch": "NODE_ENV=test jest --watch",
     "lint:fix": "eslint src --fix && pnpm format",
     "lint:strict": "eslint --max-warnings=0 src",
     "typecheck": "tsc --noEmit --incremental false",
     "format": "prettier -w .",
-    "format:check": "prettier -c .",
-    "prepare": "husky .husky"
+    "format:check": "prettier -c ."
   },
   "devDependencies": {
     "@commitlint/cli": "^19.4.1",
