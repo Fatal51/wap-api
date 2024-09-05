@@ -48,6 +48,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 # Install pnpm globally
 RUN corepack enable && corepack prepare pnpm@latest --activate
 
+# Create an empty pnpm-lock.yaml if it doesn't exist
+RUN [ -f pnpm-lock.yaml ] || touch pnpm-lock.yaml
+
 # Copy only package.json and pnpm-lock.yaml to leverage Docker layer caching
 COPY package.json pnpm-lock.yaml ./
 
