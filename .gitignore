@@ -40,7 +40,6 @@ tmp/
 temp/
 
 # Cache de IDEs e editores
-.vscode/
 .idea/
 *.suo
 *.ntvs*

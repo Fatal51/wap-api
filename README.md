@@ -1,4 +1,3 @@
-
 # WhatsApp Web Automation with Node.js
 
 This project provides a flexible and scalable solution for automating interactions with WhatsApp using Node.js and the [`whatsapp-web.js`](https://github.com/pedroslopez/whatsapp-web.js) library. It supports dynamic registration of multiple WhatsApp clients, message handling, and HTTP endpoints for sending messages. Each client session is managed using `LocalAuth`, ensuring persistence across restarts.
@@ -18,39 +17,44 @@ This project provides a flexible and scalable solution for automating interactio
 ### Local Installation
 
 1. **Clone the repository**:
-    ```bash
-    git clone https://github.com/Fatal51/wap-api.git
-    cd wap-api
-    ```
+
+   ```bash
+   git clone https://github.com/Fatal51/wap-api.git
+   cd wap-api
+   ```
 
 2. **Install dependencies using `pnpm`**:
-    - **Node version** >= 18.0.0
-    ```bash
-    pnpm install
-    ```
+
+   - **Node version** >= 18.0.0
+
+   ```bash
+   pnpm install
+   ```
 
 3. **Create a `.env` file**:
-    ```env
-    PORT=3000
-    CLIENTS_FILE_PATH=./clients.json
-    ```
+
+   ```env
+   PORT=3000
+   CLIENTS_FILE_PATH=./clients.json
+   ```
 
 4. **Run the server**:
-    ```bash
-    pnpm start
-    ```
+   ```bash
+   pnpm start
+   ```
 
 ### Docker Installation
 
 1. **Build the Docker image**:
-    ```bash
-    docker build -t wap-api .
-    ```
+
+   ```bash
+   docker build -t wap-api .
+   ```
 
 2. **Run the Docker container**:
-    ```bash
-    docker run -d -p 3000:3000 --name wap-api wap-api
-    ```
+   ```bash
+   docker run -d -p 3000:3000 --name wap-api wap-api
+   ```
 
 ## Project Structure
 
@@ -80,11 +84,12 @@ wap-api
 - **Description**: Registers a new WhatsApp client and returns its UUID along with the QR code.
 
 **Response**:
+
 ```json
 {
-    "success": true,
-    "clientId": "generated-uuid",
-    "qrCode": "qr-code-string-in-base64"
+  "success": true,
+  "clientId": "generated-uuid",
+  "qrCode": "qr-code-string-in-base64"
 }
 ```
 
@@ -95,19 +100,21 @@ wap-api
 - **Description**: Sends a message from a specified client.
 
 **Request Body**:
+
 ```json
 {
-    "numero": "recipient-phone-number",
-    "mensagem": "message-to-send",
-    "clientId": "client-uuid"
+  "numero": "recipient-phone-number",
+  "mensagem": "message-to-send",
+  "clientId": "client-uuid"
 }
 ```
 
 **Response**:
+
 ```json
 {
-    "success": true,
-    "message": "Mensagem enviada com sucesso"
+  "success": true,
+  "message": "Mensagem enviada com sucesso"
 }
 ```
 
@@ -118,10 +125,11 @@ wap-api
 - **Description**: Retrieves the QR code for the client with the specified UUID.
 
 **Response**:
+
 ```json
 {
-    "success": true,
-    "qrCode": "qr-code-string-in-base64"
+  "success": true,
+  "qrCode": "qr-code-string-in-base64"
 }
 ```
 
@@ -132,10 +140,11 @@ wap-api
 - **Description**: Disconnects the client with the specified UUID.
 
 **Response**:
+
 ```json
 {
-    "success": true,
-    "message": "Cliente {uuid} desconectado com sucesso"
+  "success": true,
+  "message": "Cliente {uuid} desconectado com sucesso"
 }
 ```
 
@@ -155,24 +164,27 @@ This collection includes all the API endpoints, ready for testing.
 ## Example Usage
 
 1. **Register a new client**:
-    ```bash
-    curl -X GET http://localhost:3000/register
-    ```
+
+   ```bash
+   curl -X GET http://localhost:3000/register
+   ```
 
 2. **Get QR Code**:
-    ```bash
-    curl -X GET http://localhost:3000/getQRCode/{client-uuid}
-    ```
+
+   ```bash
+   curl -X GET http://localhost:3000/getQRCode/{client-uuid}
+   ```
 
 3. **Send a message**:
-    ```bash
-    curl -X POST http://localhost:3000/sendMessage -H "Content-Type: application/json" -d '{"numero": "1234567890", "mensagem": "Olá, esta é uma mensagem enviada via HTTP!", "clientId": "client-uuid"}'
-    ```
+
+   ```bash
+   curl -X POST http://localhost:3000/sendMessage -H "Content-Type: application/json" -d '{"numero": "1234567890", "mensagem": "Olá, esta é uma mensagem enviada via HTTP!", "clientId": "client-uuid"}'
+   ```
 
 4. **Disconnect a client**:
-    ```bash
-    curl -X DELETE http://localhost:3000/disconnect/{client-uuid}
-    ```
+   ```bash
+   curl -X DELETE http://localhost:3000/disconnect/{client-uuid}
+   ```
 
 ## Notes
 
