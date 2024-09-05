@@ -23,7 +23,15 @@ jest.mock('whatsapp-web.js', () => {
     clientId: 'test-client-id',
   }));
 
-  return { Client, LocalAuth, clients };
+  const MessageMedia = {
+    fromUrl: jest.fn().mockResolvedValue({
+      mimetype: 'image/jpeg',
+      data: 'mocked-data',
+      filename: 'media.jpg',
+    }),
+  };
+
+  return { Client, LocalAuth, clients, MessageMedia };
 });
 
 // Mock the logger
@@ -79,6 +87,19 @@ describe('API Endpoints', () => {
     expect(response.body.qrCode).toBeDefined();
   });
 
+  it('should send a image from a url to the given number', async () => {
+    const response = await request(server).post('/sendMedia').send({
+      numero: '1234567890',
+      mediaUrl:
+        'https://fastly.picsum.photos/id/379/200/300.jpg?hmac=IEcRQyv-DIaRsldE8jIdMRW5IHCTyemefU-bbCJpY34',
+      clientId: mockUuid, // Use the UUID from the register endpoint
+    });
+    expect(response.status).toBe(200);
+    expect(response.body.success).toBe(true);
+    expect(response.body.message).toBe('Media sent successfully');
+  });
+
+  // This should be the last test in the file as it disconnects the client
   it('should disconnect the client with the given UUID', async () => {
     const response = await request(server).delete(`/disconnect/${mockUuid}`);
     expect(response.status).toBe(200);
