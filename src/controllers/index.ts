@@ -1,4 +1,5 @@
 // File to centralize all exports from controllers folder
+export * from './addCallbackController';
 export * from './clientsController';
 export * from './disconnectClientController';
 export * from './healthController';

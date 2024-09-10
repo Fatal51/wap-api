@@ -1,10 +1,8 @@
 import request from 'supertest';
 
-import server from '../index'; // Import the server instance
+import server from '../index';
 
 jest.mock('whatsapp-web.js', () => {
-  const clients = {};
-
   const Client = jest.fn(() => ({
     on: jest.fn((event, callback) => {
       if (event === 'qr') {
@@ -31,7 +29,7 @@ jest.mock('whatsapp-web.js', () => {
     }),
   };
 
-  return { Client, LocalAuth, clients, MessageMedia };
+  return { Client, LocalAuth, MessageMedia };
 });
 
 // Mock the logger
@@ -97,6 +95,16 @@ describe('API Endpoints', () => {
     expect(response.status).toBe(200);
     expect(response.body.success).toBe(true);
     expect(response.body.message).toBe('Media sent successfully');
+  });
+
+  it('should add a callback URL to the client', async () => {
+    const response = await request(server).post('/addCallbackUrl').send({
+      clientId: mockUuid,
+      callbackURL: 'http://localhost:3000/callback',
+    });
+    expect(response.status).toBe(200);
+    expect(response.body.success).toBe(true);
+    expect(response.body.message).toBe('Callback URL added successfully');
   });
 
   // This should be the last test in the file as it disconnects the client

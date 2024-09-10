@@ -4,6 +4,20 @@ import { MessageMedia } from 'whatsapp-web.js';
 import { clients } from '../service';
 import { logger, writeTempFile } from '../utils';
 
+// Helper function to validate base64 string
+const isValidBase64 = (str: string): boolean => {
+  try {
+    return btoa(atob(str)) === str;
+  } catch {
+    return false;
+  }
+};
+
+// Helper function to remove base64 prefix
+const removeBase64Prefix = (str: string): string => {
+  return str.replace(/^data:.*;base64,/, '');
+};
+
 export const sendMedia = async (req: Request, res: Response) => {
   const {
     clientId,
@@ -33,7 +47,14 @@ export const sendMedia = async (req: Request, res: Response) => {
 
     // Handle media from base64 string
     if (mediaData && mediaType === 'base64') {
-      media = new MessageMedia(fileType, mediaData);
+      const cleanedMediaData = removeBase64Prefix(mediaData);
+      if (!isValidBase64(cleanedMediaData)) {
+        return res
+          .status(400)
+          .send({ error: 'Invalid base64 mediaData provided' });
+      }
+
+      media = new MessageMedia(fileType, cleanedMediaData);
 
       // Handle media from URL
     } else if (mediaUrl) {
