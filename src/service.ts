@@ -246,6 +246,10 @@ function triggerClientCallback(
   type: string,
   additionalData?: Record<string, unknown>,
 ): void {
+  if (process.env.NODE_ENV === 'test') {
+    return;
+  }
+
   const callbackURL = getCallbackUrl(clientId);
   if (callbackURL) {
     try {

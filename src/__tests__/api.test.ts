@@ -1,10 +1,8 @@
 import request from 'supertest';
 
-import server from '../index'; // Import the server instance
+import server from '../index';
 
 jest.mock('whatsapp-web.js', () => {
-  const clients = {};
-
   const Client = jest.fn(() => ({
     on: jest.fn((event, callback) => {
       if (event === 'qr') {
@@ -31,7 +29,7 @@ jest.mock('whatsapp-web.js', () => {
     }),
   };
 
-  return { Client, LocalAuth, clients, MessageMedia };
+  return { Client, LocalAuth, MessageMedia };
 });
 
 // Mock the logger
