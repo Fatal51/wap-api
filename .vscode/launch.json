@@ -5,13 +5,9 @@
       "type": "node",
       "request": "launch",
       "name": "Debug TypeScript",
-      "skipFiles": [
-        "<node_internals>/**"
-      ],
+      "skipFiles": ["<node_internals>/**"],
       "program": "${workspaceFolder}/src/index.ts",
-      "outFiles": [
-        "${workspaceFolder}/dist/**/*.js"
-      ], // Output directory after TypeScript build
+      "outFiles": ["${workspaceFolder}/dist/**/*.js"], // Output directory after TypeScript build
       "preLaunchTask": "npm: build", // Ensure TypeScript is compiled before running
       "sourceMaps": true, // Enable source maps for TypeScript debugging
       "restart": true, // Auto-restart on file change
@@ -24,18 +20,12 @@
       "request": "launch",
       "name": "Run with ts-node",
       "runtimeExecutable": "pnpx",
-      "runtimeArgs": [
-        "ts-node"
-      ],
-      "args": [
-        "src/index.ts"
-      ],
+      "runtimeArgs": ["ts-node"],
+      "args": ["src/index.ts"],
       "env": {
         "NODE_ENV": "development"
       },
-      "skipFiles": [
-        "<node_internals>/**"
-      ]
+      "skipFiles": ["<node_internals>/**"]
     }
   ]
 }
