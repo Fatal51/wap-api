@@ -280,5 +280,6 @@ export {
   getClients,
   getQrCode,
   initializeClient,
+  triggerClientCallback,
   waitForQrCode,
 };

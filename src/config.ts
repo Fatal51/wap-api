@@ -1,5 +1,7 @@
 import path from 'path';
 
+import 'dotenv/config';
+
 export const SESSIONS_DIR: string = path
   .resolve(__dirname, '.wwebjs_auth')
   .replace('/src', '');

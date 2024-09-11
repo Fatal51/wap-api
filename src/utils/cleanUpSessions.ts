@@ -3,7 +3,7 @@ import path from 'path';
 
 import { logger } from './logger';
 import { SESSIONS_DIR } from '../config';
-import { getClients } from '../service';
+import { getClients, triggerClientCallback } from '../service';
 
 export const cleanUpSessions = (): void => {
   const clientsIds = getClients().map((client) => client.clientId);
@@ -21,6 +21,11 @@ export const cleanUpSessions = (): void => {
           if (err) {
             logger.error(`Erro ao remover a sessão ${sessionId}:`, err);
           } else {
+            triggerClientCallback(
+              sessionId,
+              `Sessão ${sessionId} removida com sucesso.`,
+              'DISCONNECTED',
+            );
             logger.info(`Sessão ${sessionId} removida com sucesso.`);
           }
         });
