@@ -1,4 +1,5 @@
 import express from 'express';
+const bodyParser = require('body-parser');
 import fs from 'fs';
 import cron from 'node-cron';
 
@@ -8,6 +9,8 @@ import router from './routes';
 import { cleanUpSessions, logger } from './utils';
 
 const app = express();
+
+app.use(bodyParser.json({ limit: process.env.REQUEST_SIZE_LIMIT || '5mb' }));
 
 // Setup middleware
 setupMiddleware(app);
