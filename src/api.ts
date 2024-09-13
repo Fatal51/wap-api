@@ -1,5 +1,5 @@
+import bodyParser from 'body-parser';
 import express from 'express';
-const bodyParser = require('body-parser');
 import fs from 'fs';
 import cron from 'node-cron';
 
